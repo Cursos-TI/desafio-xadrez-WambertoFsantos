@@ -1,20 +1,46 @@
 #include <stdio.h>
 
+void moverBispoRec(int passo, int casas, int dir) { //int 
+    if (passo >= casas) return;
+    printf("%s\n", dir == 1 ? "DIREITA E PARA CIMA" : 
+                  dir == 2 ? "DIREITA E PARA BAIXO" :
+                  dir == 3 ? "ESQUERDA E PARA CIMA" : "ESQUERDA E PARA BAIXO");
+    moverBispoRec(passo + 1, casas, dir);
+}
+//----------------------------------------------------------------------------------------------------
+void moverTorreRec(int passo, int casas, int dir, int tipo) {
+    if (passo >= casas) return;
+    printf("%s\n", tipo == 1 ? (dir == 1 ? "DIREITA" : "ESQUERDA") : 
+                              (dir == 1 ? "CIMA" : "BAIXO"));
+    moverTorreRec(passo + 1, casas, dir, tipo);
+}
+//----------------------------------------------------------------------------------------------------
+void moverRainhaRec(int passo, int casas, int dir, int tipo) {
+    if (passo >= casas) return;
+    if (tipo == 3) {
+        printf("%s\n", dir == 1 ? "DIREITA E PARA CIMA" : 
+                      dir == 2 ? "DIREITA E PARA BAIXO" :
+                      dir == 3 ? "ESQUERDA E PARA CIMA" : "ESQUERDA E PARA BAIXO");
+    } else {
+        printf("%s\n", tipo == 1 ? (dir == 1 ? "DIREITA" : "ESQUERDA") : 
+                                  (dir == 1 ? "CIMA" : "BAIXO"));
+    }
+    moverRainhaRec(passo + 1, casas, dir, tipo);
+}
+//----------------------------------------------------------------------------------------------------
 int main() {
 // Desafio de Xadrez - MateCheck
 // Este código inicial serve como base para o desenvolvimento do sistema de movimentação das peças de xadrez.
 // O objetivo é utilizar estruturas de repetição e funções para determinar os limites de movimentação dentro do jogo.#include <stdio.h>
 
-    int pecas, direcao, escolha;
-    int bispo, torre, rainha, cavalo, rei, peao; //PECAS
-    int casaBispo1, casaBispo2, casaTorre1, casaTorre2, casaRainha1, casaRainha2, casaCavalo1, casaCavalo2, casaRei1, casaRei2, casaPeao1, casaPeao2;
-    int direcaoBispo1, direcaoBispo2, direcaoTorre1, direcaoTorre2, direcaoRainha1, direcaoRainha2, direcaoCavalo1, direcaoCavalo2, direcaoRei1, direcaoRei2, direcaoPeao1, direcaoPeao2;
-    char Direita, Esquerda, Cima, Baixo, Direitacima, esqueraCima, DireitaBaixo, EsquerdaBaixo;
-   
+
+    int direcao, escolha, movimento, movimento2, casas;
+    char pecas;
+
     //----------------------------------------------------------------------------------------------------
     printf("Bem vindo ao jogo de xadrez\n");
     //----------------------------------------------------------------------------------------------------
-    printf(" ---------- MENU ----------\n"); // foi inserido menu para treinar o tema anteiror
+    printf(" ---------- MENU ----------\n");
     printf("1 - INICIAR\n");
     printf("2 - SAIR\n");
     printf("Digite a opção desejada\n");
@@ -22,24 +48,26 @@ int main() {
 
     if (escolha == 1) {
         printf(" ---------- INICIANTO O JOGO ----------\n");
-    }
-    else {
-        printf("Saindo do jogo\n");
-        return 0;
-    }
+        }
+        else {
+            printf("Saindo do jogo\n");
+            return 0;
+            }
     //----------------------------------------------------------------------------------------------------
+        printf(" ---------- ESCOLHA A PEÇA ----------\n");
         printf("Escolha a peça que deseja movimentar\n");
-        printf("1 - Bispo\n");
-        printf("2 - Torre\n");
-        printf("3 - Rainha\n");
-        printf("4 - Cavalo\n");
-        printf("5 - Rei\n");
-        printf("6 - Peão\n");
+        printf("B - Bispo\n");
+        printf("T - Torre\n");
+        printf("R - Rainha\n");
+        printf("C - Cavalo\n");
+        printf("K - Rei\n");
+        printf("P - Peão\n");
         printf("Digite a opção desejada\n");
-        scanf("%d", &pecas);
+        scanf("%s", &pecas);
     //----------------------------------------------------------------------------------------------------
     switch (pecas) {
-        case 1: //Bispo
+        case 'b':
+        case 'B': //Bispo
             printf(" ---------- Bispo selecionado ----------\n");
                     printf("Digite a direção que deseja movimentar\n");
                     printf("1 - Direita e para Cima\n");
@@ -48,20 +76,25 @@ int main() {
                     printf("4 - Esquerda e para Baixo\n");
                     while(getchar() != '\n');
                     printf("Digite a opção desejada\n");
-                    scanf("%d", &direcaoBispo1);
+                    scanf("%d", &movimento);
 
                     printf("Digite o numero de casas que deseja movimentar\n");
-                    scanf("%d", &casaBispo1);
+                    scanf("%d", &casas);
 
                     printf(" ---------- MOVIMENTO ----------\n");
-                        for (int i = 0; i < casaBispo1; i++) {
-                        printf("%s\n", direcaoBispo1 == 1 ? "DIREITA E PARA CIMA" : 
-                                        direcaoBispo1 == 2 ? "DIREITA E PARA BAIXO" :
-                                        direcaoBispo1 == 3 ? "ESQUERDA E PARA CIMA" : "ESQUERDA E PARA BAIXO");
-                    }
-                    break;
+                        moverBispoRec(0, casas, movimento);
+                        break;
+
+                
+                        /*for (int i = 0; i < casas; i++) {
+                        printf("%s\n", movimento == 1 ? "DIREITA E PARA CIMA" : 
+                                        movimento == 2 ? "DIREITA E PARA BAIXO" :
+                                        movimento == 3 ? "ESQUERDA E PARA CIMA" : "ESQUERDA E PARA BAIXO");
+                        }
+                        break;*/
     //----------------------------------------------------------------------------------------------------
-        case 2: //Torre
+        case 't':
+        case 'T': //Torre
             printf(" ---------- Torre selecionada ----------\n");
             printf("O movimento sera na horizontal, vertical?\n");
             printf("1 - Horizontal\n");
@@ -75,17 +108,20 @@ int main() {
                     printf("2 - Esquerda\n");
                     while(getchar() != '\n');
                     printf("Digite a opção desejada\n");
-                    scanf("%d", &direcaoTorre1);
+                    scanf("%d", &movimento);
 
                     printf("Digite o numero de casas que deseja movimentar\n");
-                    scanf("%d", &casaTorre1);
+                    scanf("%d", &casas);
+
 
                     printf(" ---------- MOVIMENTO ----------\n");
-                        for (int i = 0; i < casaTorre1; i++) {
-                        printf("%s\n", direcaoTorre1 == 1 ? "DIREITA" : "ESQUERDA");
+                        moverTorreRec(0, casas, movimento, 1); 
+                        break;  
+                    }
+                    /*for (int i = 0; i < casas; i++) {
+                        printf("%s\n", movimento == 1 ? "DIREITA" : "ESQUERDA");
                     }  
-                    break;             
-                }
+                    break; */           
                 else if (direcao == 2) {
                     printf(" ---------- Movimento na vertical ----------\n");
                     printf("Digite a direção que deseja movimentar\n");
@@ -93,23 +129,26 @@ int main() {
                     printf("2 - Baixo\n");
                     while(getchar() != '\n');
                     printf("Digite a opção desejada\n");
-                    scanf("%d", &direcaoTorre2);
+                    scanf("%d", &movimento);
 
                     printf("Digite o numero de casas que deseja movimentar\n");
-                    scanf("%d", &casaTorre2);
+                    scanf("%d", &casas);
 
                     printf(" ---------- MOVIMENTO ----------\n");
-                        for (int i = 0; i < casaTorre2; i++) {
-                        printf("%s\n", direcaoTorre2 == 1 ? "CIMA" : "BAIXO");
+                        moverTorreRec(0, casas, movimento, 1); 
+                        break;  
                     }
-                    break;
-                }
+                    /*for (int i = 0; i < casas; i++) {
+                        printf("%s\n", movimento == 1 ? "CIMA" : "BAIXO");
+                    }
+                    break;*/
                 else {
                     printf("Opção inválida\n");
                     break;
                 }
         //----------------------------------------------------------------------------------------------------
-        case 3: //Rainha
+            case 'r':
+            case 'R': //Rainha
             printf(" ---------- Rainha selecionada ----------\n");
             printf("O movimento sera na horizontal, vertical ou diagonal?\n");
             printf("1 - Horizontal\n");
@@ -124,17 +163,20 @@ int main() {
                     printf("2 - Esquerda\n");
                     while(getchar() != '\n');
                     printf("Digite a opção desejada\n");
-                    scanf("%d", &direcaoRainha1);
+                    scanf("%d", &movimento);
 
                     printf("Digite o numero de casas que deseja movimentar\n");
-                    scanf("%d", &casaRainha1);
+                    scanf("%d", &casas);
 
                     printf(" ---------- MOVIMENTO ----------\n");
-                        for (int i = 0; i < casaRainha1; i++) {
-                        printf("%s\n", direcaoRainha1 == 1 ? "DIREITA" : "ESQUERDA");
+                        moverRainhaRec(0, casas, movimento, direcao);
+                        break;
+                        } 
+                        /*for (int i = 0; i < casas; i++) {
+                        printf("%s\n", movimento == 1 ? "DIREITA" : "ESQUERDA");
                         }   
-                        break;            
-                }
+                        break;          
+                        }*/  
                 else if (direcao == 2) {
                     printf(" ---------- Movimento na vertical ----------\n");
                     printf("Digite a direção que deseja movimentar\n");
@@ -142,17 +184,20 @@ int main() {
                     printf("2 - Baixo\n");
                     while(getchar() != '\n');
                     printf("Digite a opção desejada\n");
-                    scanf("%d", &direcaoRainha2);
+                    scanf("%d", &movimento);
 
                     printf("Digite o numero de casas que deseja movimentar\n");
-                    scanf("%d", &casaRainha2);
+                    scanf("%d", &casas);
 
                     printf(" ---------- MOVIMENTO ----------\n");
-                        for (int i = 0; i < casaRainha2; i++) {
-                        printf("%s\n", direcaoRainha2 == 1 ? "CIMA" : "BAIXO");
+                        moverRainhaRec(0, casas, movimento, direcao);
+                        break;
+                        } 
+                        /*for (int i = 0; i < casas; i++) {
+                        printf("%s\n", movimento == 1 ? "CIMA" : "BAIXO");
                         }
                         break;
-                }
+                }*/
                 else if (direcao == 3) {
                     printf(" ---------- Movimento na diagonal ----------\n");
                     printf("Digite a direção que deseja movimentar\n");
@@ -162,25 +207,29 @@ int main() {
                     printf("4 - Esquerda e para Baixo\n");
                     while(getchar() != '\n');   
                     printf("Digite a opção desejada\n");
-                    scanf("%d", &direcaoRainha1);
+                    scanf("%d", &movimento);
 
                     printf("Digite o numero de casas que deseja movimentar\n");
-                    scanf("%d", &casaRainha1);
+                    scanf("%d", &casas);
 
                     printf(" ---------- MOVIMENTO ----------\n");
-                        for (int i = 0; i < casaRainha1; i++) {
-                        printf("%s\n", direcaoRainha1 == 1 ? "DIREITA E PARA CIMA" : 
-                                        direcaoRainha1 == 2 ? "DIREITA E PARA BAIXO" :
-                                        direcaoRainha1 == 3 ? "ESQUERDA E PARA CIMA" : "ESQUERDA E PARA BAIXO");
+                        moverRainhaRec(0, casas, movimento, direcao);
+                        break;
+                        } 
+                        /*for (int i = 0; i < casas; i++) {
+                        printf("%s\n", movimento == 1 ? "DIREITA E PARA CIMA" : 
+                                        movimento == 2 ? "DIREITA E PARA BAIXO" :
+                                        movimento == 3 ? "ESQUERDA E PARA CIMA" : "ESQUERDA E PARA BAIXO");
                         }
                         break;
-                }
+                }*/
                 else {
                     printf("Opção inválida\n");
                     break;
                     }
         //----------------------------------------------------------------------------------------------------
-        case 4: //Cavalo
+            case 'c':        
+            case 'C': //Cavalo
             printf(" ---------- Cavalo selecionado ----------\n");
             printf("O movimento sera na horizontal, vertical?\n");
             printf("1 - Horizontal\n");
@@ -194,22 +243,22 @@ int main() {
                     printf("2 - Esquerda\n");
                     while(getchar() != '\n');
                     printf("Digite a opção desejada\n");
-                    scanf("%d", &direcaoCavalo1);
+                    scanf("%d", &movimento);
 
                     printf("Digite a segunda direção que deseja movimentar\n");
                     printf("1 - Cima\n");
                     printf("2 - Baixo\n");
                     while(getchar() != '\n');
                     printf("Digite a opção desejada\n");
-                    scanf("%d", &direcaoCavalo2);
+                    scanf("%d", &movimento2);
 
                     printf(" ---------- MOVIMENTO ----------\n");
                         for (int i = 0; i < 2; i++) { // primeiro movimento do L andara 2 casas (por isso i < 2)
-                        printf("%s\n", direcaoCavalo1 == 1 ? "DIREITA" : "ESQUERDA");
+                        printf("%s\n", movimento == 1 ? "DIREITA" : "ESQUERDA");
                         } 
                             int i = 0;
                             while (i < 1) { // segundo movimento do L andara 1 casa (por isso i < 1)
-                            printf("%s\n", direcaoCavalo2 == 1 ? "CIMA" : "BAIXO");
+                            printf("%s\n", movimento2 == 1 ? "CIMA" : "BAIXO");
                             i++;
                             }
                             break;            
@@ -221,22 +270,22 @@ int main() {
                     printf("2 - Baixo\n");
                     while(getchar() != '\n');
                     printf("Digite a opção desejada\n");
-                    scanf("%d", &direcaoCavalo2);
+                    scanf("%d", &movimento);
 
                     printf("Digite a segunda direção que deseja movimentar\n");
                     printf("1 - Direita\n");
                     printf("2 - Esquerda\n");
                     while(getchar() != '\n');
                     printf("Digite a opção desejada\n");
-                    scanf("%d", &direcaoCavalo1);
+                    scanf("%d", &movimento2);
 
                     printf(" ---------- MOVIMENTO ----------\n");
                         for (int i = 0; i < 2 ; i++) {
-                        printf("%s\n", direcaoCavalo2 == 1 ? "CIMA" : "BAIXO");
+                        printf("%s\n", movimento == 1 ? "CIMA" : "BAIXO");
                         } 
                             int i = 0;
                             while (i < 1) {
-                            printf("%s\n", direcaoCavalo1 == 1 ? "DIREITA" : "ESQUERDA");
+                            printf("%s\n", movimento2 == 1 ? "DIREITA" : "ESQUERDA");
                             i++;
                             }
                             break;
@@ -246,7 +295,8 @@ int main() {
                     break;
                 }
         //----------------------------------------------------------------------------------------------------
-        case 5: //Rei
+            case 'k':
+            case 'K': //Rei
             printf(" ---------- Rei selecionado ----------\n");
             printf("O movimento sera na horizontal, vertical ou diagonal?\n");
             printf("1 - Horizontal\n");
@@ -261,14 +311,14 @@ int main() {
                     printf("2 - Esquerda\n");
                     while(getchar() != '\n');
                     printf("Digite a opção desejada\n");
-                    scanf("%d", &direcaoRei1);
+                    scanf("%d", &movimento);
                     
                     printf("Digite o numero de casas que deseja movimentar\n");
-                    scanf("%d", &casaRei1);
+                    scanf("%d", &casas);
 
                     printf(" ---------- MOVIMENTO ----------\n");
-                        for (int i = 0; i < casaRei1; i++) {
-                        printf("%s\n", direcaoRei1 == 1 ? "DIREITA" : "ESQUERDA");
+                        for (int i = 0; i < casas; i++) {
+                        printf("%s\n", movimento == 1 ? "DIREITA" : "ESQUERDA");
                         } 
                         break;              
                 }
@@ -279,14 +329,14 @@ int main() {
                     printf("2 - Baixo\n");
                     while(getchar() != '\n');
                     printf("Digite a opção desejada\n");
-                    scanf("%d", &direcaoRei2);
+                    scanf("%d", &movimento);
 
                     printf("Digite o numero de casas que deseja movimentar\n");
-                    scanf("%d", &casaRei2);
+                    scanf("%d", &casas);
 
                     printf(" ---------- MOVIMENTO ----------\n");
-                        for (int i = 0; i < casaRei2; i++) {
-                        printf("%s\n", direcaoRei2 == 1 ? "CIMA" : "BAIXO");
+                        for (int i = 0; i < casas; i++) {
+                        printf("%s\n", movimento == 1 ? "CIMA" : "BAIXO");
                         }
                         break;
                 }
@@ -300,16 +350,16 @@ int main() {
                     while
                     (getchar() != '\n');
                     printf("Digite a opção desejada\n");
-                    scanf("%d", &direcaoRei1);
+                    scanf("%d", &movimento);
 
                     printf("Digite o numero de casas que deseja movimentar\n");
-                    scanf("%d", &casaRei1);
+                    scanf("%d", &casas);
 
                     printf(" ---------- MOVIMENTO ----------\n");
-                        for (int i = 0; i < casaRei1; i++) {
-                        printf("%s\n", direcaoRei1 == 1 ? "DIREITA E PARA CIMA" : 
-                                        direcaoRei1 == 2 ? "DIREITA E PARA BAIXO" :
-                                        direcaoRei1 == 3 ? "ESQUERDA E PARA CIMA" : "ESQUERDA E PARA BAIXO");
+                        for (int i = 0; i < casas; i++) {
+                        printf("%s\n", movimento == 1 ? "DIREITA E PARA CIMA" : 
+                                        movimento == 2 ? "DIREITA E PARA BAIXO" :
+                                        movimento == 3 ? "ESQUERDA E PARA CIMA" : "ESQUERDA E PARA BAIXO");
                     }
                     break;
                 }
@@ -319,7 +369,8 @@ int main() {
                 }
                 
         //----------------------------------------------------------------------------------------------------
-        case 6: //Peão
+            case 'p':
+            case 'P': //Peão
             printf(" ---------- Peão selecionado ----------\n");
             printf("O movimento sera na horizontal, vertical ou diagonal?\n");
             printf("1 - Horizontal\n");
@@ -334,14 +385,14 @@ int main() {
                     printf("2 - Esquerda\n");
                     while(getchar() != '\n');
                     printf("Digite a opção desejada\n");
-                    scanf("%d", &direcaoPeao1);
+                    scanf("%d", &movimento);
 
                     printf("Digite o numero de casas que deseja movimentar\n");
-                    scanf("%d", &casaPeao1);
+                    scanf("%d", &casas);
 
                     printf(" ---------- MOVIMENTO ----------\n");
-                        for (int i = 0; i < casaPeao1; i++) {
-                        printf("%s\n", direcaoPeao1 == 1 ? "DIREITA" : "ESQUERDA");
+                        for (int i = 0; i < casas; i++) {
+                        printf("%s\n", movimento == 1 ? "DIREITA" : "ESQUERDA");
                         }     
                         break;          
                 }
@@ -352,14 +403,14 @@ int main() {
                     printf("2 - Baixo\n");
                     while(getchar() != '\n');
                     printf("Digite a opção desejada\n");
-                    scanf("%d", &direcaoPeao2);
+                    scanf("%d", &movimento);
 
                     printf("Digite o numero de casas que deseja movimentar\n");
-                    scanf("%d", &casaPeao2);
+                    scanf("%d", &casas);
 
                     printf(" ---------- MOVIMENTO ----------\n");
-                        for (int i = 0; i < casaPeao2; i++) {
-                        printf("%s\n", direcaoPeao2 == 1 ? "CIMA" : "BAIXO");
+                        for (int i = 0; i < casas; i++) {
+                        printf("%s\n", movimento == 1 ? "CIMA" : "BAIXO");
                         }
                         break;
                 }
@@ -372,16 +423,16 @@ int main() {
                     printf("4 - Esquerda e para Baixo\n");
                     while(getchar() != '\n');
                     printf("Digite a opção desejada\n");
-                    scanf("%d", &direcaoPeao1);
+                    scanf("%d", &movimento);
 
                     printf("Digite o numero de casas que deseja movimentar\n");
-                    scanf("%d", &casaPeao1);
-                    
+                    scanf("%d", &casas);
+
                     printf(" ---------- MOVIMENTO ----------\n");
-                        for (int i = 0; i < casaPeao1; i++) {
-                        printf("%s\n", direcaoPeao1 == 1 ? "DIREITA E PARA CIMA" : 
-                                        direcaoPeao1 == 2 ? "DIREITA E PARA BAIXO" :
-                                        direcaoPeao1 == 3 ? "ESQUERDA E PARA CIMA" : "ESQUERDA E PARA BAIXO");
+                        for (int i = 0; i < casas; i++) {
+                        printf("%s\n", movimento == 1 ? "DIREITA E PARA CIMA" : 
+                                        movimento == 2 ? "DIREITA E PARA BAIXO" :
+                                        movimento == 3 ? "ESQUERDA E PARA CIMA" : "ESQUERDA E PARA BAIXO");
                         }
                         break;
                 }
@@ -397,13 +448,6 @@ int main() {
 }
 //----------------------------------------------------------------------------------------------------
 
-    // Nível Aventureiro - Movimentação do Cavalo
-    // Sugestão: Utilize loops aninhados para simular a movimentação do Cavalo em L.
-    // Um loop pode representar a movimentação horizontal e outro vertical.
-
     // Nível Mestre - Funções Recursivas e Loops Aninhados
     // Sugestão: Substitua as movimentações das peças por funções recursivas.
     // Exemplo: Crie uma função recursiva para o movimento do Bispo.
-
-    // Sugestão: Implemente a movimentação do Cavalo utilizando loops com variáveis múltiplas e condições avançadas.
-    // Inclua o uso de continue e break dentro dos loops
